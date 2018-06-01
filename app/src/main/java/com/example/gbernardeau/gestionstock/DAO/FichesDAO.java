@@ -146,6 +146,25 @@ public class FichesDAO extends DAO<Fiches> {
         res.moveToFirst();
         return res.getString(0);
     }
+
+    public Cursor getidEtat() {
+        Cursor res;
+        res = db.rawQuery("SELECT ID, LIBELLE FROM ETAT ", null);
+        res.moveToFirst();
+        return res;
+    }
+    public Cursor getidEmp() {
+        Cursor res;
+        res = db.rawQuery("SELECT ID, LIBELLE FROM EMPLACEMENT ", null);
+        res.moveToFirst();
+        return res;
+    }public Cursor getidArticle() {
+        Cursor res;
+        res = db.rawQuery("SELECT ID, LIBELLE FROM ARTICLE ", null);
+        res.moveToFirst();
+        return res;
+    }
+
     /**
      * Fonction retournant un ArrayList peuplé de curseur ayant des données qui sont ajoutées à chaque tour de boucle.
      * @return listFiches

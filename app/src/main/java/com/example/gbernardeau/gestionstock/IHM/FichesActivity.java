@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,18 +16,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gbernardeau.gestionstock.DAO.FichesDAO;
 import com.example.gbernardeau.gestionstock.METIER.Fiches;
 import com.example.gbernardeau.gestionstock.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -115,6 +121,8 @@ public class FichesActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View promptsView = inflater.inflate(R.layout.dialog_ajout_fiches, null);
         AlertDialog.Builder Builder = new AlertDialog.Builder(this);
+
+
         // set title
         Builder.setTitle("Ajouter une matiere");
 
@@ -125,6 +133,54 @@ public class FichesActivity extends AppCompatActivity {
         final Spinner Semplacement = (Spinner) promptsView.findViewById(R.id.Semplacement);
         final Spinner Sfamille = (Spinner) promptsView.findViewById(R.id.Sfamille);
         final Spinner Setat = (Spinner) promptsView.findViewById(R.id.Setat);
+
+        // ajout contenu spinner etat
+        ArrayList<String> Listetat = new ArrayList<String>();
+        ArrayAdapter<String> adapteretat;
+        Cursor cetat= DAOF.getidEtat();
+        adapteretat= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listetat);
+        Listetat.clear();
+        while (!cetat.isAfterLast()) {
+            String libetat= cetat.getString(1).toString();
+            Listetat.add(libetat);
+            cetat.moveToNext();
+        }
+        Setat.setAdapter(adapteretat);
+        Setat.setSelection(0, true);
+        View vetat = Setat.getSelectedView();
+        ((TextView)vetat).setTextColor(Color.BLACK);
+
+        // ajout contenu spinner emplacement
+        ArrayList<String> Listemp = new ArrayList<String>();
+        ArrayAdapter<String> adapteremp;
+        Cursor cemp= DAOF.getidEmp();
+        adapteremp= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listemp);
+        Listemp.clear();
+        while (!cemp.isAfterLast()) {
+            String libetat= cemp.getString(1).toString();
+            Listemp.add(libetat);
+            cemp.moveToNext();
+        }
+        Semplacement.setAdapter(adapteremp);
+        Semplacement.setSelection(0, true);
+        View vemp = Semplacement.getSelectedView();
+        ((TextView)vemp).setTextColor(Color.BLACK);
+
+        // ajout contenu spinner article
+        ArrayList<String> Listarticle = new ArrayList<String>();
+        ArrayAdapter<String> adapterarticle;
+        Cursor carticle= DAOF.getidArticle();
+        adapterarticle= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listarticle);
+        Listarticle.clear();
+        while (!carticle.isAfterLast()) {
+            String libetat= carticle.getString(1).toString();
+            Listarticle.add(libetat);
+            carticle.moveToNext();
+        }
+        Sfamille.setAdapter(adapterarticle);
+        Sfamille.setSelection(0, true);
+        View varticle = Sfamille.getSelectedView();
+        ((TextView)varticle).setTextColor(Color.BLACK);
 
         Builder
                 .setMessage("Ajouter une matière")
@@ -172,8 +228,10 @@ public class FichesActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final Fiches cl = DAOF.readAtCursor(position);
             LayoutInflater inflater = getLayoutInflater();
+
             View promptsView = inflater.inflate(R.layout.dialog_ajout_fiches, null);
             AlertDialog.Builder Builder = new AlertDialog.Builder(FichesActivity.this);
+
             // set title
             Builder.setTitle("Modifier/Supprimer une fiche");
             // set dialog message
@@ -186,9 +244,55 @@ public class FichesActivity extends AppCompatActivity {
 
             eTQuantite.setText(Integer.toString(cl.getQuantite()));
             eTDesignation.setText(Integer.toString(cl.getIdarticle()));
-            /*Semplacement.setText(Integer.toString(cl.getIdarticle()));
-            Sfamille.setAdapter(Integer.toString(Sfamille.getAdapter()));
-            Setat.setAdapter(Integer.toString(Setat.getAdapter()));*/
+
+            // ajout contenu spinner etat
+            ArrayList<String> Listetat = new ArrayList<String>();
+            ArrayAdapter<String> adapteretat;
+            Cursor cetat= DAOF.getidEtat();
+            adapteretat= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listetat);
+            Listetat.clear();
+            while (!cetat.isAfterLast()) {
+                String libetat= cetat.getString(1).toString();
+                Listetat.add(libetat);
+                cetat.moveToNext();
+            }
+            Setat.setAdapter(adapteretat);
+            Setat.setSelection(0, true);
+            View vetat = Setat.getSelectedView();
+            ((TextView)vetat).setTextColor(Color.BLACK);
+
+            // ajout contenu spinner emplacement
+            ArrayList<String> Listemp = new ArrayList<String>();
+            ArrayAdapter<String> adapteremp;
+            Cursor cemp= DAOF.getidEmp();
+            adapteremp= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listemp);
+            Listemp.clear();
+            while (!cemp.isAfterLast()) {
+                String libetat= cemp.getString(1).toString();
+                Listemp.add(libetat);
+                cemp.moveToNext();
+            }
+            Semplacement.setAdapter(adapteremp);
+            Semplacement.setSelection(0, true);
+            View vemp = Semplacement.getSelectedView();
+            ((TextView)vemp).setTextColor(Color.BLACK);
+
+            // ajout contenu spinner article
+            ArrayList<String> Listarticle = new ArrayList<String>();
+            ArrayAdapter<String> adapterarticle;
+            Cursor carticle= DAOF.getidArticle();
+            adapterarticle= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Listarticle);
+            Listarticle.clear();
+            while (!carticle.isAfterLast()) {
+                String libetat= carticle.getString(1).toString();
+                Listarticle.add(libetat);
+                carticle.moveToNext();
+            }
+            Sfamille.setAdapter(adapterarticle);
+            Sfamille.setSelection(0, true);
+            View varticle = Sfamille.getSelectedView();
+            ((TextView)varticle).setTextColor(Color.BLACK);
+
             Builder
                     .setMessage("Modifier une fiche")
                     .setCancelable(true)
