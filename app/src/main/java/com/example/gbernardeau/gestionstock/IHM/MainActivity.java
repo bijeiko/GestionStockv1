@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
      * Déclaration des éléments utiles à la classe
      */
 
-    private Button bSearch, bTri, Accueil, CreateFiches, ToutesLesFiches, ToutLesArticles;
+    private Button bSearch, bTri, Accueil, ToutesLesFiches, ToutLesArticles;
     private EditText Search;
     private ListView ListViewAccueil;
 
@@ -48,17 +48,8 @@ public class MainActivity extends AppCompatActivity {
         ToutLesArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent activityarticle = new Intent(getApplicationContext(), ListeArticleActivity.class);
+                Intent activityarticle = new Intent(getApplicationContext(), ArticlesActivity.class);
                 startActivity(activityarticle);
-            }
-        });
-
-        CreateFiches = (Button) findViewById(R.id.CreateFiches);
-        CreateFiches.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent activitycreation = new Intent(getApplicationContext(), CreationFicheActivity.class);
-                startActivity(activitycreation);
             }
         });
 

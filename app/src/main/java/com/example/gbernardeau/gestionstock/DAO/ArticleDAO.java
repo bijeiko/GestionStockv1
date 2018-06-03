@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.gbernardeau.gestionstock.METIER.Article;
+import com.example.gbernardeau.gestionstock.METIER.Fiches;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class ArticleDAO extends DAO<Article> {
     private SQLiteGestionStock dbGestionStock;
 
     private static final String Table_ARTICLE = "ARTICLE";
-    private static final String COL_ID_ARTICLE = "ID";
+    private static final String COL_ID_ARTICLE = "CODE";
     private static final String COL_DESIGNATION_ARTICLE = "DESIGNATION";
     private static final String COL_ID_FAMILLE = "IDFAM";
     private static final String COL_ID_EMPLACEMENT = "IDEMP";
@@ -67,14 +68,21 @@ public class ArticleDAO extends DAO<Article> {
         res = false;
         ContentValues mavaleur = new ContentValues();
         mavaleur.put(COL_DESIGNATION_ARTICLE, ma.getDesignation());
-        mavaleur.put(COL_STOCK_ARTICLE, ma.getStock());
         insert = db.insert(Table_ARTICLE, null, mavaleur);
         if (insert != -1) {
             res = true;
         }
         return res;
     }
+    public Article create(Article ma) {
+        ContentValues valeursSQL = new ContentValues();
+        valeursSQL.put(COL_DESIGNATION_ARTICLE, ma.getDesignation());
+        valeursSQL.put(COL_ID_ARTICLE, ma.getCode());
+        valeursSQL.put(COL_ID_FAMILLE, ma.getIdfam());
 
+        db.insert(Table_ARTICLE, null, valeursSQL);
+        return null;
+    }
     /**
      * Permet d'effectuer un UPDATE en tenant compte de obj qui est un objet de Article, passé en paramètre.
      * La fonction retourne un booléen en fonction du résultat.
@@ -87,11 +95,24 @@ public class ArticleDAO extends DAO<Article> {
         res = false;
         ContentValues mavaleur = new ContentValues();
         mavaleur.put(COL_DESIGNATION_ARTICLE, obj.getDesignation());
-        mavaleur.put(COL_STOCK_ARTICLE, obj.getStock());
         update = db.update(Table_ARTICLE, mavaleur, null, null);
         if (update > 0) {
             res = true;
         }
+        return res;
+    }
+
+    public String selectlibFamille(int id) {
+        Cursor res;
+        res = db.rawQuery("SELECT FAMILLE.LIBELLE  FROM FAMILLE INNER JOIN "+ Table_ARTICLE +" ON FAMILLE.ID = ARTICLE.IDFAM WHERE ARTICLE.IDFAM = " + id + " ", null);
+        res.moveToFirst();
+
+        return res.getString(0);
+    }
+    public Cursor getidFam() {
+        Cursor res;
+        res = db.rawQuery("SELECT ID, LIBELLE FROM FAMILLE ", null);
+        res.moveToFirst();
         return res;
     }
 
@@ -120,7 +141,7 @@ public class ArticleDAO extends DAO<Article> {
      */
     public Article read(long id) {
         Cursor res = db.query(Table_ARTICLE, null, null, null, null, null, null);
-        Article unArticle = new Article(res.getString(0), res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4));
+        Article unArticle = new Article(res.getString(0), res.getString(1), res.getInt(2));
         return unArticle;
     }
 
@@ -144,10 +165,8 @@ public class ArticleDAO extends DAO<Article> {
         while (!res.isAfterLast()) {
             code = res.getString(0);
             lib = res.getString(1);
-            stock = res.getInt(2);
-            idemp = res.getInt(3);
-            idfam = res.getInt(4);
-            ma = new Article(code, lib, stock, idemp, idfam);
+            idfam = res.getInt(2);
+            ma = new Article(code, lib, idfam);
             listArticle.add(ma);
             res.moveToNext();
         }
@@ -173,13 +192,30 @@ public class ArticleDAO extends DAO<Article> {
         while (!res.isAfterLast()) {
             code = res.getString(0);
             lib = res.getString(1);
-            stock = res.getInt(2);
-            idemp = res.getInt(3);
-            idfam = res.getInt(4);
-            ma = new Article(code, lib, stock, idemp, idfam);
+            idfam = res.getInt(2);
+            ma = new Article(code, lib, idfam);
             listArticle.add(ma);
         }
 
         return listArticle;
     }
+    public int getLastIdFiches(){
+        int res;
+        Cursor C = db.query(Table_ARTICLE, null, null, null,null,null,null);
+        res = C.getCount();
+        C.close();
+        return res;
+    }
+
+    public Article readAtCursor(int id){
+        Article retArticle = null;
+        Cursor C = db.query(Table_ARTICLE, null, null, null,null,null,null);
+        C.moveToFirst();
+        if(C.moveToPosition(id)){
+            retArticle = new Article(C.getString(0), C.getString(1), C.getInt(2));
+        }
+        C.close();
+        return retArticle;
+    }
+
 }

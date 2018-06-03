@@ -40,7 +40,7 @@ import java.util.Set;
  */
 
 public class FichesActivity extends AppCompatActivity {
-    private Button Accueilbtn, CreateFiches, ToutesLesFiches;
+    private Button Accueilbtn, ToutslesArticles;
     private ListView Listfiches;
     private FichesDAO DAOF;
     private String libemp;
@@ -71,17 +71,9 @@ public class FichesActivity extends AppCompatActivity {
                 startActivity(activitiemain);
             }
         });
-        CreateFiches = (Button) findViewById(R.id.CreateFiches);
-        CreateFiches.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent activitycreatefiche = new Intent(getApplicationContext(), CreationFicheActivity.class);
-                startActivity(activitycreatefiche);
-            }
-        });
 
-        ToutesLesFiches = (Button) findViewById(R.id.ToutesLesFiches);
-        ToutesLesFiches.setOnClickListener(new View.OnClickListener() {
+        ToutslesArticles = (Button) findViewById(R.id.ToutslesArticles);
+        ToutslesArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent activityarticle = new Intent(getApplicationContext(), ListeArticleActivity.class);
@@ -183,7 +175,7 @@ public class FichesActivity extends AppCompatActivity {
         ((TextView)varticle).setTextColor(Color.BLACK);
 
         Builder
-                .setMessage("Ajouter une matière")
+                .setMessage("Ajouter une fiche")
                 .setCancelable(true)
                 .setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {

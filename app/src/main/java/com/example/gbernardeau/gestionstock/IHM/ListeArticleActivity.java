@@ -29,7 +29,7 @@ public class ListeArticleActivity extends AppCompatActivity {
     private EmplacementDAO emplacementDao;
     private RayonDAO rayonDao;
 
-    private Button bSearch, bTri, Accueilbtn, ToutesLesFiches, CreateFiches;
+    private Button bSearch, bTri, Accueilbtn, ToutesLesFiches;
     private TextView code;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +67,6 @@ public class ListeArticleActivity extends AppCompatActivity {
                 startActivity(activityaccueil);
             }
         });
-        // Bouton Créer fiche
-        CreateFiches = (Button) findViewById(R.id.CreateFiches);
-        CreateFiches.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent activitycreationfiche = new Intent(getApplicationContext(), CreationFicheActivity.class);
-                startActivity(activitycreationfiche);
-            }
-        });
         // Bouton Toutes les fiches
         ToutesLesFiches = (Button) findViewById(R.id.ToutesLesFiches);
         ToutesLesFiches.setOnClickListener(new View.OnClickListener() {
@@ -86,15 +77,5 @@ public class ListeArticleActivity extends AppCompatActivity {
             }
         });
 
-        //Ceci est un essai pour rendre "Code" cliquable pour le tri
-        // EN COURS !
-
-        /*code = (TextView) findViewById(R.id.code);
-        code.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                listViewArticle.setAdapter(adapter);
-            }
-        });*/
     }
 }

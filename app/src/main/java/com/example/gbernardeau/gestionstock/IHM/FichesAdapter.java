@@ -38,14 +38,14 @@ public class FichesAdapter extends ArrayAdapter<Fiches> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        MatiereHolder holder = null;
+        FichesHolder holder = null;
         DAOF = new FichesDAO(this.getContext());
         DAOF.open();
         if(row == null)
         {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
-            holder = new MatiereHolder();
+            holder = new FichesHolder();
             holder.id = (TextView)row.findViewById(R.id.fiches_id);
             holder.famille = (TextView)row.findViewById(R.id.fiches_famille);
             holder.emplacement = (TextView)row.findViewById(R.id.fiches_emplacement);
@@ -54,7 +54,7 @@ public class FichesAdapter extends ArrayAdapter<Fiches> {
         }
         else
         {
-            holder = (MatiereHolder)row.getTag();
+            holder = (FichesHolder)row.getTag();
         }
 
         Fiches fiches = listfiches.get(position);
@@ -71,7 +71,7 @@ public class FichesAdapter extends ArrayAdapter<Fiches> {
         return row;
     }
 
-    static class MatiereHolder
+    static class FichesHolder
     {
         TextView id;
         TextView famille;
