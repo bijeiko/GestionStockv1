@@ -104,12 +104,11 @@ public class ArticleDAO extends DAO<Article> {
 
     public String selectlibFamille(int id) {
         Cursor res;
-        res = db.rawQuery("SELECT FAMILLE.LIBELLE  FROM FAMILLE INNER JOIN "+ Table_ARTICLE +" ON FAMILLE.ID = ARTICLE.IDFAM WHERE ARTICLE.IDFAM = " + id + " ", null);
+        res = db.rawQuery("SELECT FAMILLE.LIBELLE  FROM FAMILLE INNER JOIN "+ Table_ARTICLE +" ON FAMILLE.ID = ARTICLE.IDFAM WHERE ARTICLE.IDFAM = " + id, null);
         res.moveToFirst();
-
         return res.getString(0);
     }
-    public Cursor getidFam() {
+    public Cursor getidFamille() {
         Cursor res;
         res = db.rawQuery("SELECT ID, LIBELLE FROM FAMILLE ", null);
         res.moveToFirst();

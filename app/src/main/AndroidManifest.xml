@@ -25,6 +25,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".IHM.MainActivity" />
         </activity>
+
         <activity android:name=".IHM.ArticlesActivity"
             android:label="Listes Articles"
             android:parentActivityName=".IHM.MainActivity">
